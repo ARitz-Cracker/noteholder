@@ -52,9 +52,9 @@ let
 in {
   environment.systemPackages = [ noteholder ];
 
-  # Make Carla find the plugin:
+  # Make Carla (and other hosts) find the plugin:
   environment.sessionVariables.CLAP_PATH = "${noteholder}/lib/clap";
-  # VST3 is picked up automatically from the standard path on most hosts.
+  environment.sessionVariables.VST3_PATH  = "${noteholder}/lib/vst3";
 }
 ```
 
