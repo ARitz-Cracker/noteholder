@@ -55,7 +55,8 @@ in {
   # CLAP — set the scan path:
   environment.sessionVariables.CLAP_PATH = "${noteholder}/lib/clap";
 
-  # VST3 — merge into /run/current-system/sw/lib/vst3 (≡ /usr/lib/vst3 on NixOS):
+  # VST3 — merges $out/lib/vst3 from all systemPackages into
+  # /run/current-system/sw/lib/vst3 — configure your DAW to scan that path:
   environment.pathsToLink = [ "/lib/vst3" ];
 }
 ```
