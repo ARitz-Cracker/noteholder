@@ -35,8 +35,12 @@ pkgs.rustPlatform.buildRustPackage rec {
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
-      "nih_plug-0.0.0" = "sha256-rPd1Vmw3YK9aUz+hFlVUuf9la9nIhi74Goo8et6pZqE=";
-      "baseview-0.1.0" = "sha256-vFTzEh/PrrKEN5S/GnCBdJ+Im3wOZM4PY1nQebuVx14=";
+      "nih_plug-0.0.0"    = "sha256-rPd1Vmw3YK9aUz+hFlVUuf9la9nIhi74Goo8et6pZqE=";
+      "baseview-0.1.0"   = "sha256-vFTzEh/PrrKEN5S/GnCBdJ+Im3wOZM4PY1nQebuVx14=";
+      "egui-baseview-0.5.0" = "sha256-T0rfvFedUWh/6VUQyoEkNQhCeuzDeAVrEh47Udlmvj0=";
+      "clap-sys-0.5.0"   = "sha256-Ha/UJlMFCVKxx1axrdRQR+T/G0xK3828xFKdfBIehKM=";
+      "reflink-0.1.3"    = "sha256-1o5d/mepjbDLuoZ2/49Bi6sFgVX4WdCuhGJkk8ulhcI=";
+      "vst3-sys-0.1.0"   = "sha256-tKWEmJR9aRpfsiuVr0K8XXYafVs+CzqCcP+Ea9qvZ7Y=";
     };
   };
 
