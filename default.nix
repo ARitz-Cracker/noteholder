@@ -1,27 +1,16 @@
 # NoteHolder — multi-note sustain pad MIDI generator
 #
 # IMPORTANT: nih-plug does NOT support LV2. This package produces a CLAP bundle
-# (and VST3), which Carla supports natively. On NixOS you need to expose the
-# CLAP path to Carla; see the "NixOS integration" section below.
-#
-# ── First-time setup ──────────────────────────────────────────────────────────
-#
-#  1. Generate the lock file (requires network):
-#       cd <this-repo>
-#       cargo generate-lockfile
-#
-#  2. Compute the outputHash for the nih-plug git dependency:
-#       nix-prefetch-git --url https://github.com/robbert-vdh/nih-plug \
-#                        --rev "$(grep 'nih_plug' Cargo.lock | grep 'rev =' | head -1 | \
-#                                 sed 's/.*rev = "\(.*\)".*/\1/')"
-#     Paste the printed sha256 into `outputHashes` below.
-#     (There will be one entry per unique git source in the lockfile.)
+# (and VST3), which Carla supports natively.
 #
 # ── NixOS integration ─────────────────────────────────────────────────────────
 #
 #  In your configuration.nix:
 #
-#    let noteholder = import /path/to/noteholder/default.nix { inherit pkgs; };
+#    let noteholder = import (builtins.fetchGit {
+#          url = "https://github.com/ARitz-Cracker/noteholder.git";
+#          rev = "<commit-hash>";
+#        }) { inherit pkgs; };
 #    in {
 #      environment.systemPackages = [ noteholder ];
 #
@@ -41,21 +30,10 @@ pkgs.rustPlatform.buildRustPackage rec {
 
   src = ./.;
 
-  # ── Cargo dependency locking ───────────────────────────────────────────────
-  # Cargo.lock must be committed to the repository.
-  # `outputHashes` maps "<crate-name>-<version>" to the sha256 of its git tree.
-  # After running `cargo generate-lockfile`, compute hashes with:
-  #   nix store prefetch-file --hash-type sha256 \
-  #     "$(nix-prefetch-git --url <url> --rev <rev> --fetch-submodules \
-  #        2>/dev/null | jq -r .sha256)"
-  # or use `carnix`/`crane`/`naersk` for a more automated approach.
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
-      # Replace these placeholder hashes with the real ones after generating
-      # Cargo.lock.  Run: nix-prefetch-git --url https://github.com/robbert-vdh/nih-plug
-      # (with the exact rev from your Cargo.lock) to obtain the correct sha256.
-      "nih-plug-0.0.0" = pkgs.lib.fakeSha256;
+      "nih-plug-0.0.0" = "sha256-rPd1Vmw3YK9aUz+hFlVUuf9la9nIhi74Goo8et6pZqE=";
     };
   };
 
@@ -129,7 +107,7 @@ pkgs.rustPlatform.buildRustPackage rec {
       Note: nih-plug does not produce LV2 bundles. Carla fully supports CLAP
       on NixOS — set CLAP_PATH to $out/lib/clap in your environment.
     '';
-    homepage = "https://github.com/youruser/noteholder";
+    homepage = "https://github.com/ARitz-Cracker/noteholder";
     license = licenses.mit;
     platforms = [ "x86_64-linux" "aarch64-linux" ];
     maintainers = [ ];

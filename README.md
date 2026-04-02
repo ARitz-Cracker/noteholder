@@ -39,24 +39,7 @@ ln -s "$PWD/target/bundled/noteholder.vst3" ~/.vst3/noteholder.vst3
 
 ## Installing on NixOS
 
-### 1. Generate the Cargo lockfile (once, requires network)
-
-```bash
-cargo generate-lockfile
-```
-
-### 2. Get the hash for the nih-plug git dependency
-
-```bash
-nix-prefetch-git \
-  --url https://github.com/robbert-vdh/nih-plug \
-  --rev "$(grep -A4 'name = "nih-plug"' Cargo.lock | grep 'rev =' | head -1 | sed 's/.*"\(.*\)".*/\1/')"
-```
-
-Paste the printed `sha256` into `default.nix` under `cargoLock.outputHashes`,
-replacing `pkgs.lib.fakeSha256`.
-
-### 3. Add to your NixOS configuration
+Add to your `configuration.nix`:
 
 ```nix
 { config, pkgs, ... }:
