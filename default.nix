@@ -74,29 +74,22 @@ pkgs.rustPlatform.buildRustPackage rec {
   );
 
   # ── Build ──────────────────────────────────────────────────────────────────
-  # Override the default `cargo build` with nih-plug's xtask bundler so we get
-  # the correctly structured .clap (and .vst3) bundle directories.
-  buildPhase = ''
-    runHook preBuild
-    cargo xtask bundle noteholder --release
-    runHook postBuild
-  '';
+  # Use the default cargoBuildHook (avoids cargo xtask bundle, which spawns a
+  # child cargo process that loses the vendored-source config Nix sets up).
+  # The bundle layout is assembled manually in installPhase below.
 
   # ── Install ────────────────────────────────────────────────────────────────
+  # CLAP: a .clap is just a renamed cdylib .so.
+  # VST3: standard bundle tree — Contents/x86_64-linux/<name>.so.
   installPhase = ''
     runHook preInstall
 
-    # CLAP plugins
     mkdir -p "$out/lib/clap"
-    for bundle in target/bundled/*.clap; do
-      cp -r "$bundle" "$out/lib/clap/"
-    done
+    cp target/release/libnoteholder.so "$out/lib/clap/noteholder.clap"
 
-    # VST3 plugins (bonus; hosts like Bitwig / REAPER pick these up too)
-    mkdir -p "$out/lib/vst3"
-    for bundle in target/bundled/*.vst3; do
-      cp -r "$bundle" "$out/lib/vst3/"
-    done
+    mkdir -p "$out/lib/vst3/noteholder.vst3/Contents/x86_64-linux"
+    cp target/release/libnoteholder.so \
+       "$out/lib/vst3/noteholder.vst3/Contents/x86_64-linux/noteholder.so"
 
     runHook postInstall
   '';
