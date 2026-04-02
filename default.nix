@@ -64,6 +64,8 @@ pkgs.rustPlatform.buildRustPackage rec {
     libGL
     # Keyboard input
     libxkbcommon
+    # GCC runtime (libgcc_s.so.1) linked by Rust cdylib output
+    stdenv.cc.cc.lib
     # LV2 headers kept for completeness; CLAP has no equivalent pkg-config dep
     lv2
   ];
