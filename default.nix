@@ -35,7 +35,7 @@ pkgs.rustPlatform.buildRustPackage rec {
   cargoLock = {
     lockFile = ./Cargo.lock;
     outputHashes = {
-      "nih-plug-0.0.0" = "sha256-rPd1Vmw3YK9aUz+hFlVUuf9la9nIhi74Goo8et6pZqE=";
+      "nih_plug-0.0.0" = "sha256-rPd1Vmw3YK9aUz+hFlVUuf9la9nIhi74Goo8et6pZqE=";
     };
   };
 
