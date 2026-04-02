@@ -86,12 +86,13 @@ pkgs.rustPlatform.buildRustPackage rec {
   installPhase = ''
     runHook preInstall
 
+    so=$(find target -name "libnoteholder.so" -path "*/release/libnoteholder.so" | head -1)
+
     mkdir -p "$out/lib/clap"
-    cp target/release/libnoteholder.so "$out/lib/clap/noteholder.clap"
+    cp "$so" "$out/lib/clap/noteholder.clap"
 
     mkdir -p "$out/lib/vst3/noteholder.vst3/Contents/x86_64-linux"
-    cp target/release/libnoteholder.so \
-       "$out/lib/vst3/noteholder.vst3/Contents/x86_64-linux/noteholder.so"
+    cp "$so" "$out/lib/vst3/noteholder.vst3/Contents/x86_64-linux/noteholder.so"
 
     runHook postInstall
   '';
