@@ -14,10 +14,11 @@
 #    in {
 #      environment.systemPackages = [ noteholder ];
 #
-#      # Make Carla (and other CLAP hosts) find the plugin:
+#      # CLAP — set the scan path:
 #      environment.sessionVariables.CLAP_PATH = "${noteholder}/lib/clap";
-#      # VST3 has no equivalent path variable; configure your host to scan
-#      # ${noteholder}/lib/vst3 directly, or symlink to ~/.vst3/.
+#
+#      # VST3 — merge into /run/current-system/sw/lib/vst3 (= /usr/lib/vst3 on NixOS):
+#      environment.pathsToLink = [ "/lib/vst3" ];
 #    }
 #
 # Alternatively, use home-manager's sessionVariables if you prefer a per-user
